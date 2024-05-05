@@ -22,4 +22,6 @@ COPY . /app/cnn/
 
 WORKDIR /app/cnn/src
 
+RUN export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
+
 CMD [ "python", "-u", "app.py"]
