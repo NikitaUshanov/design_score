@@ -7,3 +7,4 @@ opencv-python==3.4.9.33
 flask-cors
 selenium
 requests
+webdriver_manager

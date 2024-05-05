@@ -1,12 +1,11 @@
-import random
-
 import flask
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import tempfile
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 import requests
 import logging
 
@@ -18,6 +17,7 @@ CORS(app)
 
 
 def get_browser():
+
     base_path = os.getcwd()
     cookie_ignore_path = f"{base_path}/src/extensions/cookieconsent"
     chrome_options = Options()
@@ -28,7 +28,8 @@ def get_browser():
     chrome_options.add_argument(f"--disable-extensions-except={cookie_ignore_path}")
     chrome_options.add_argument(f"--load-extension={cookie_ignore_path}")
     chrome_options.add_argument("window-size=1366,694")
-    return webdriver.Chrome(options=chrome_options)
+    service = Service(executable_path=ChromeDriverManager().install())
+    return webdriver.Chrome(options=chrome_options, service=service)
 
 
 def process_input_url(url):
