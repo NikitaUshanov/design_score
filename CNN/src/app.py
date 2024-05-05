@@ -38,7 +38,7 @@ def load_cnn_model():
 
 @app.route('/')
 def index():
-	return "Flask server"
+	return "ML-engine"
 
 
 @app.route('/run_cnn', methods=['POST'])

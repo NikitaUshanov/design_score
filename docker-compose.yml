@@ -9,11 +9,11 @@ services:
       context: ./back-end
     container_name: server
     expose:
-      - 4000
+      - 5000
     ports:
-      - 4000:4000
+      - 5000:5000
     environment:
-      - PORT=4000
+      - PORT=5000
     volumes:
       - ./back-end/src:/app/server/src
       - ./back-end/src/static/image-tmp:/app/server/static/image-tmp
@@ -32,9 +32,9 @@ services:
       context: ./CNN
     container_name: cnn
     expose:
-      - 5000
+      - 6000
     ports:
-      - 5000:5000
+      - 6000:6000
 
     volumes:
       - ./CNN/src:/app/cnn/src
