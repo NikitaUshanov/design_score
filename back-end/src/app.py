@@ -76,7 +76,7 @@ def evaluate_website():
         return jsonify({'statusCode': 400}), 400
 
     try:
-        response = requests.post('http://cnn:5000/run_cnn', json={'imagePath': image_path})
+        response = requests.post('http://0.0.0.0:7000/run_cnn', json={'imagePath': image_path})
         response_data = response.json()
         score = response_data.get('score', 0)
         logger.info(f'The score is {score:.2f}')
