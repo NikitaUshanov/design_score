@@ -5,10 +5,10 @@ from cnn_model.custom_objects import layers
 from cnn_model.custom_objects import metrics
 import json
 from preprocess import prepare_image
-from typing import Optional, Any
 import numpy as np
 import tensorflow as tf
 from keras.preprocessing.image import ImageDataGenerator
+from typing import Optional, Any
 import logging
 
 

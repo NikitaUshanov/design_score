@@ -1,6 +1,5 @@
-from keras.layers import Layer
+from keras.layers.core import Layer
 from keras import backend as K
-
 
 class LRN(Layer):
     def __init__(self, n=5, alpha=0.0001, beta=0.75, k=2, **kwargs):

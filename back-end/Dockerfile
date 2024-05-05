@@ -18,7 +18,7 @@ COPY requirements.txt /app/backend/
 RUN pip3 install -r ./requirements.txt
 
 # Copy the server files to the container
-COPY src /app/backend/
+COPY . /app/backend/
 
 WORKDIR /app/backend/src
 
