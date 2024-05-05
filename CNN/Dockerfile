@@ -3,7 +3,7 @@ FROM python:3.7
 
 RUN apt-get update && \
     apt-get -y install netcat-openbsd && \
-    apt-get -y install netcat-openbsd && \
+    apt-get -y install netcat-traditional && \
     apt-get clean && \
     apt-get install -y python3-opencv
 
