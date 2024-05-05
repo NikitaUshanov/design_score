@@ -7,4 +7,4 @@ opencv-python==3.4.9.33
 flask-cors
 protobuf==3.20.3
 pillow
-io
+python-io
