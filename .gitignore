@@ -26,4 +26,3 @@ yarn-error.log*
 **/image-tmp/*.png
 
 *.pyc
-*.h5
