@@ -1,0 +1,110 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    background-color: #7b4fa5; /* Сиреневый фон */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    text-align: center;
+    color: white;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+img {
+    max-width: 90%;
+    border: 1px solid #ccc; /* Серая рамка */
+    margin-bottom: 20px;
+    max-width: 50%; /* ограничение по ширине */
+    max-height: 500px; /* ограничение по высоте */
+    height: auto; /* поддержание пропорций */
+    display: block; /* устранение возможных проблем с отображением */
+    margin: 0 auto; /* центрирование изображения */
+}
+
+
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: white; /* Белый фон кнопки */
+    color: #6c54b8; /* Темно-сиреневый цвет текста */
+    border: 2px solid #6c54b8; /* Темно-сиреневая рамка */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+    background-color: #f3f3f3; /* Светло-серый фон при наведении */
+    color: #5a42a0; /* Чуть более темный сиреневый текст при наведении */
+}
+
+input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 10px;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    box-shadow: 0 0 5px 2px rgba(255,255,255,0.5);
+}
+
+.description {
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+.loader {
+    font-size: 1.5em;
+    margin-top: 20px;
+}
+
+.dots {
+    animation: dots 1.5s steps(5, end) infinite;
+}
+
+@keyframes dots {
+    0%, 20% {
+        color: rgba(0,0,0,0);
+        text-shadow:
+            .25em 0 0 rgba(0,0,0,0),
+            .5em 0 0 rgba(0,0,0,0);
+    }
+    40% {
+        color: white;
+        text-shadow:
+            .25em 0 0 rgba(0,0,0,0),
+            .5em 0 0 rgba(0,0,0,0);
+    }
+    60% {
+        text-shadow:
+            .25em 0 0 white,
+            .5em 0 0 rgba(0,0,0,0);
+    }
+    80%, 100% {
+        text-shadow:
+            .25em 0 0 white,
+            .5em 0 0 white;
+    }
+}

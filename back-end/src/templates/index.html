@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DesignScore</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var urlInput = document.getElementById('urlInput');
+                urlInput.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        var url = encodeURIComponent(urlInput.value);
+                        window.location.href = `/loading?url=${url}`;
+                    }
+                });
+            });
+        </script>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>DesignScore</h1>
+            <input type="text" id="urlInput" placeholder="Вставьте ссылку (например, www.google.com)">
+            <p class="description">Сервис на основе глубокого обучения для оценки эстетики вашего сайта</p>
+        </div>
+    </div>
+</body>
+</html>

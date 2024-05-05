@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const url = urlParams.get('url');
+
+            fetch('/websites/evaluate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ url: decodeURIComponent(url) })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                displayResults(data); // Функция для отображения результатов
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                document.querySelector('.loader').innerHTML = 'Ошибка загрузки!';
+            });
+        });
+
+        function displayResults(data) {
+            const contentDiv = document.querySelector('.content');
+            contentDiv.innerHTML = `
+                <h1>Результаты оценки</h1>
+                <p>URL: ${data.url}</p>
+                <p>Оценка: ${data.score}</p>
+                <img src="${data.image}" alt="Screenshot" style="max-width: 90%; border: 1px solid #ccc;"/>
+                <p></p>
+                <button onclick="window.location.href='/'">Вернуться</button>
+            `;
+        }
+    </script>
+</head>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>Пожалуйста, подождите</h1>
+            <div class="loader"><span class="dots">...</span></div>
+        </div>
+    </div>
+</body>
+</html>

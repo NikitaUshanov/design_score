@@ -1,3 +1,6 @@
+import random
+
+import flask
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
@@ -39,15 +42,26 @@ def get_webpage_image(url):
     browser = get_browser()
     try:
         browser.get(url)
-        image_path = tempfile.NamedTemporaryFile(suffix='.png', delete=False).name
+        image_path = f"static/image-tmp/{url.replace('/', '').replace('.', '').replace(':', '')}.png"
         browser.get_screenshot_as_file(image_path)
         logger.info(f'Screenshot saved to {image_path}')
+        print(image_path)
         return True, image_path
     except Exception as e:
         logger.error(f'Error capturing webpage screenshot: {e}')
         return False, None
     finally:
         browser.quit()
+
+
+@app.route('/', methods=['GET'])
+def index():
+    return flask.render_template("index.html")
+
+
+@app.route('/loading', methods=['GET'])
+def loading():
+    return flask.render_template("loading.html", url=request.url)
 
 
 @app.route('/websites/evaluate', methods=['POST'])
@@ -70,7 +84,7 @@ def evaluate_website():
         return jsonify({
             'score': score,
             'url': url,
-            'image': f'Data URI of image {image_path}'
+            'image': f'{image_path}'
         }), 200
     except Exception as e:
         logger.error(f'Error processing image: {e}')
