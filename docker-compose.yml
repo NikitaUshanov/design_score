@@ -22,29 +22,6 @@ services:
     links:
       - cnn
 
-  ##############################
-  ### SETUP CLIENT CONTAINER ###
-  ##############################
-  client:
-    build:
-      context: ./front-end
-    container_name: client
-    expose:
-      - 3000
-    ports:
-      - 3000:3000
-    environment:
-      - REACT_APP_PORT=3000
-      - CHOKIDAR_USEPOLLING=true
-      - REACT_APP_BASEURL=${BASEURL}
-    volumes:
-      - ./front-end/src:/app/client/src
-      - ./front-end/public:/app/client/public
-      - /etc/localtime:/etc/localtime:ro
-    restart: always
-    links:
-      - server
-
   #############################
   ###  SETUP CNN CONTAINER  ###
   #############################
