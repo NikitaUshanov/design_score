@@ -16,20 +16,20 @@
 
 ## Запуск
 
-Start:
+Деплой:
 
     docker-compose -f docker-compose.yml up --build
 
-Stop:
+Остановка:
 
     Ctrl-C
 
-**For detached mode**:
+**В фоновом режиме**:
 
-Start:
+Деплой:
 
     docker-compose -f docker-compose.yml up -d --build
 
-Stop:
+Остановка:
 
     docker-compose down
