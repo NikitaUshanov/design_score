@@ -5,7 +5,7 @@ body, html {
 }
 
 .container {
-    background-color: #7b4fa5; /* Сиреневый фон */
+    background-color: #7b4fa5;
     width: 100%;
     height: 100%;
     display: flex;
@@ -30,30 +30,30 @@ p {
 
 img {
     max-width: 90%;
-    border: 1px solid #ccc; /* Серая рамка */
+    border: 1px solid #ccc;
     margin-bottom: 20px;
-    max-width: 50%; /* ограничение по ширине */
-    max-height: 500px; /* ограничение по высоте */
-    height: auto; /* поддержание пропорций */
-    display: block; /* устранение возможных проблем с отображением */
-    margin: 0 auto; /* центрирование изображения */
+    max-width: 50%;
+    max-height: 500px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 
 button {
     padding: 10px 20px;
     font-size: 1em;
-    background-color: white; /* Белый фон кнопки */
-    color: #6c54b8; /* Темно-сиреневый цвет текста */
-    border: 2px solid #6c54b8; /* Темно-сиреневая рамка */
+    background-color: white;
+    color: #6c54b8;
+    border: 2px solid #6c54b8;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 }
 
 button:hover {
-    background-color: #f3f3f3; /* Светло-серый фон при наведении */
-    color: #5a42a0; /* Чуть более темный сиреневый текст при наведении */
+    background-color: #f3f3f3;
+    color: #5a42a0;
 }
 
 input[type="text"] {
@@ -121,9 +121,19 @@ footer p {
 }
 
 footer a {
-    color: lightblue; /* Цвет ссылок */
+    color: lightblue;
 }
 
 footer a:hover {
-    color: white; /* Цвет ссылок при наведении */
+    color: white;
+}
+
+.highlighted-url {
+    color: lightblue;
+    text-decoration: none;
+}
+
+.highlighted-url:hover {
+    text-decoration: underline;
+    color: white;
 }
