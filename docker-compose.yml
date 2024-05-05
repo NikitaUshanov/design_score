@@ -16,7 +16,9 @@ services:
       - PORT=4000
     volumes:
       - ./back-end/src:/app/server/src
-      - ./back-end/src/image-tmp:/app/server/image-tmp
+      - ./back-end/src/static/image-tmp:/app/server/static/image-tmp
+      - ./back-end/src/static/styles:/app/server/static/styles
+      - ./back-end/src/templates:/app/server/static/templates
       - /etc/localtime:/etc/localtime:ro
     restart: always
     links:
