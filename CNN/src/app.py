@@ -23,7 +23,7 @@ graph: Optional[Any] = None
 def load_cnn_model():
 	global model
 	model = load_model(
-		filepath='cnn_model/design_score.h5',
+		'cnn_model/design_score.h5',
 		custom_objects={
 			'LRN': layers.LRN,
 			'euclidean_distance_loss': metrics.euclidean_distance_loss,
