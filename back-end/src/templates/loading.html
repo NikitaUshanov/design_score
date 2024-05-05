@@ -32,7 +32,7 @@
             const contentDiv = document.querySelector('.content');
             contentDiv.innerHTML = `
                 <h1>Результаты оценки</h1>
-                <p>URL: ${data.url}</p>
+                <p>URL: <a href="${data.url}" target="_blank">${data.url}</a></p>
                 <p>Оценка: ${data.score}</p>
                 <img src="${data.image}" alt="Screenshot" style="max-width: 90%; border: 1px solid #ccc;"/>
                 <p></p>
