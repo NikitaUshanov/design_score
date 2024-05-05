@@ -108,3 +108,22 @@ input[type="text"]:focus {
             .5em 0 0 white;
     }
 }
+
+footer {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    color: white;
+}
+
+footer p {
+    margin: 5px;
+}
+
+footer a {
+    color: lightblue; /* Цвет ссылок */
+}
+
+footer a:hover {
+    color: white; /* Цвет ссылок при наведении */
+}
