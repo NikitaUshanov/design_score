@@ -8,6 +8,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import requests
 import logging
+import base64
 
 
 logger = logging.getLogger(__name__)
@@ -55,6 +56,12 @@ def get_webpage_image(url):
         browser.quit()
 
 
+def encode_image(image_path):
+    with open(image_path, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
+    return encoded_string
+
+
 @app.route('/', methods=['GET'])
 def index():
     return flask.render_template("index.html")
@@ -77,7 +84,7 @@ def evaluate_website():
         return jsonify({'statusCode': 400}), 400
 
     try:
-        response = requests.post('http://cnn:7000/run_cnn', json={'imagePath': image_path})
+        response = requests.post('http://cnn:7000/run_cnn', json={'image': encode_image(image_path)})
         response_data = response.json()
         score = response_data.get('score', 0)
         logger.info(f'The score is {score:.2f}')
