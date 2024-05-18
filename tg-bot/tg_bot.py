@@ -25,6 +25,10 @@ if not os.path.exists(screenshots_folder):
     os.makedirs(screenshots_folder)
 
 
+class GoogleSearchException(Exception):
+    pass
+
+
 def get_browser():
 
     base_path = os.getcwd()
@@ -61,6 +65,8 @@ def get_random_website() -> str:
     }
     response = requests.get("https://serpapi.com/search", params=params)
 
+    if str(response.status_code).startswith("4"):
+        raise GoogleSearchException(response.text)
     search_results = response.json()
     if 'organic_results' in search_results:
         first_result = search_results['organic_results'][random.randint(1, len(
@@ -77,6 +83,9 @@ def take_screenshot() -> str:
     except WebDriverException:
         driver.quit()
         return take_screenshot()
+    except GoogleSearchException as err:
+        driver.quit()
+        return "ERROR: " + str(err)
     screenshot_path = f"{screenshots_folder}/{datetime.now().strftime('%Y%m%d%H%M%S')}.png"
     driver.save_screenshot(screenshot_path)
     driver.quit()
@@ -86,11 +95,14 @@ def take_screenshot() -> str:
 # Функция для отправки случайного скриншота
 async def send_screenshot(update: Update, context: CallbackContext) -> None:
     screenshot_path = take_screenshot()
-    await update.message.reply_photo(
-        photo=open(screenshot_path, 'rb'),
-        caption="Пожалуйста, оцените дизайн сайта от 1 до 9."
-    )
-    context.user_data['last_screenshot'] = screenshot_path
+    if screenshot_path.startswith("ERROR"):
+        await update.message.reply_text(screenshot_path)
+    else:
+        await update.message.reply_photo(
+            photo=open(screenshot_path, 'rb'),
+            caption="Пожалуйста, оцените дизайн сайта от 1 до 9."
+        )
+        context.user_data['last_screenshot'] = screenshot_path
 
 
 # Функция сохранения оценки в CSV
