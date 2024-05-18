@@ -63,7 +63,7 @@ def get_webpage_image(url: str) -> Tuple[bool, Optional[str]]:
 
 def decode_image_and_save(encoded_string: str) -> str:
     image_data = base64.b64decode(encoded_string)
-    img_path = f"image-tmp/{encoded_string[:10]}.png"
+    img_path = f"static/image-tmp/{encoded_string[:10]}.png"
     Image.open(BytesIO(image_data)).save(img_path)
     return img_path
 
@@ -107,7 +107,7 @@ def evaluate_website():
                 {
                     "score": score,
                     "url": url,
-                    "image": f"static/{decode_image_and_save(image_encode)}",
+                    "image": f"{decode_image_and_save(image_encode)}",
                 }
             ),
             200,
