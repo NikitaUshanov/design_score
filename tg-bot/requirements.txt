@@ -3,3 +3,5 @@ random-word
 selenium
 requests
 webdriver_manager
+pillow
+python-io

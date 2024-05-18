@@ -1,6 +1,7 @@
 import flask
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from typing import Tuple, Optional
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -9,6 +10,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 import requests
 import logging
 import base64
+from io import BytesIO
+from PIL import Image
 
 
 logger = logging.getLogger(__name__)
@@ -17,8 +20,12 @@ app = Flask(__name__)
 CORS(app)
 
 
-def get_browser():
+########################
+####   EXTRA FUNC  #####
+########################
 
+
+def get_browser() -> webdriver.Chrome:
     base_path = os.getcwd()
     cookie_ignore_path = f"{base_path}/src/extensions/cookieconsent"
     chrome_options = Options()
@@ -33,22 +40,20 @@ def get_browser():
     return webdriver.Chrome(options=chrome_options, service=service)
 
 
-def process_input_url(url):
+def process_input_url(url: str) -> str:
     url = url.strip()
     if not (url.lower().startswith('http://') or url.lower().startswith('https://')):
         url = f"http://{url}"
     return url
 
 
-def get_webpage_image(url):
+def get_webpage_image(url: str) -> Tuple[bool, Optional[str]]:
     browser = get_browser()
     try:
         browser.get(url)
-        image_path = f"static/image-tmp/{url.replace('/', '').replace('.', '').replace(':', '')}.png"
-        browser.get_screenshot_as_file(image_path)
-        logger.info(f'Screenshot saved to {image_path}')
-        print(image_path)
-        return True, image_path
+        image_encode = browser.get_screenshot_as_base64()
+        logger.info(f'Screenshot saved')
+        return True, image_encode
     except Exception as e:
         logger.error(f'Error capturing webpage screenshot: {e}')
         return False, None
@@ -56,10 +61,15 @@ def get_webpage_image(url):
         browser.quit()
 
 
-def encode_image(image_path):
-    with open(image_path, "rb") as image_file:
-        encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
-    return encoded_string
+def decode_image(encoded_string: str) -> Image:
+    image_data = base64.b64decode(encoded_string)
+    return Image.open(BytesIO(image_data))
+
+
+########################
+#####  FLASK API  ######
+########################
+
 
 
 @app.route('/', methods=['GET'])
@@ -79,12 +89,12 @@ def evaluate_website():
     url = process_input_url(input_url)
     logger.info(f'The processed url is {url}')
 
-    succeeded, image_path = get_webpage_image(url)
+    succeeded, image_encode = get_webpage_image(url)
     if not succeeded:
         return jsonify({'statusCode': 400}), 400
 
     try:
-        response = requests.post('http://cnn:7000/run_cnn', json={'image': encode_image(image_path)})
+        response = requests.post('http://cnn:7000/run_cnn', json={'image': image_encode})
         response_data = response.json()
         score = response_data.get('score', 0)
         logger.info(f'The score is {score:.2f}')
@@ -92,7 +102,7 @@ def evaluate_website():
         return jsonify({
             'score': score,
             'url': url,
-            'image': f'{image_path}'
+            'image': f'{decode_image(image_encode)}'
         }), 200
     except Exception as e:
         logger.error(f'Error processing image: {e}')

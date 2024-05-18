@@ -22,7 +22,12 @@ model: Optional[Any] = None
 graph: Optional[Any] = None
 
 
-def load_cnn_model():
+########################
+####   EXTRA FUNC  #####
+########################
+
+
+def load_cnn_model() -> None:
     global model
     model = load_model(
         'cnn_model/design_score.h5',
@@ -38,10 +43,15 @@ def load_cnn_model():
     graph = tf.get_default_graph()
 
 
-def decode_image(encoded_string):
+def decode_image(encoded_string: str) -> None:
     image_data = base64.b64decode(encoded_string)
     image = Image.open(BytesIO(image_data))
     image.save('image-tmp/decoded_image.png')
+
+
+########################
+#####  FLASK API  ######
+########################
 
 
 @app.route('/')

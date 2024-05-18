@@ -8,3 +8,5 @@ flask-cors
 selenium
 requests
 webdriver_manager
+pillow
+python-io
