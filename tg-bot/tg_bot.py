@@ -66,6 +66,7 @@ def get_random_website() -> str:
     response = requests.get("https://serpapi.com/search", params=params)
 
     if str(response.status_code).startswith("4"):
+        logger.error(response.text)
         raise GoogleSearchException(response.text)
     search_results = response.json()
     if 'organic_results' in search_results:
