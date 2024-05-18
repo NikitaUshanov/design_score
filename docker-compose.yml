@@ -54,9 +54,11 @@ services:
       - 6000
     ports:
       - "6000:6000"
+    env_file:
+      - ./.env
     environment:
-      - G_TOKEN
-      - TG_TOKEN
+      - G_TOKEN=${G_TOKEN}
+      - TG_TOKEN=${TG_TOKEN}
     volumes:
       - ./CNN/src:/app/cnn/src
       - ./back-end/src/image-tmp:/app/cnn/src/image-tmp
