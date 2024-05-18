@@ -9,6 +9,9 @@ import random
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from random_word import RandomWords
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -20,6 +23,25 @@ r = RandomWords()
 screenshots_folder = "screenshots"
 if not os.path.exists(screenshots_folder):
     os.makedirs(screenshots_folder)
+
+
+def get_browser():
+
+    base_path = os.getcwd()
+    cookie_ignore_path = f"{base_path}/src/extensions/cookieconsent"
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-setuid-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument(f"--disable-extensions-except={cookie_ignore_path}")
+    chrome_options.add_argument(f"--load-extension={cookie_ignore_path}")
+    chrome_options.add_argument("window-size=1366,694")
+    chrome_options.page_load_strategy = "eager"
+    service = Service(executable_path=ChromeDriverManager().install())
+    driver = webdriver.Chrome(options=chrome_options, service=service)
+    driver.set_page_load_timeout(15.0)
+    return driver
 
 
 # Функция для старта бота
@@ -49,11 +71,7 @@ def get_random_website() -> str:
 
 # Функция для получения скриншота
 def take_screenshot() -> str:
-    options = webdriver.ChromeOptions()
-    options.headless = True
-    options.page_load_strategy = 'eager'
-    driver = webdriver.Chrome(options=options)
-    driver.set_page_load_timeout(15.0)
+    driver = get_browser()
     try:
         driver.get(get_random_website())
     except WebDriverException:
