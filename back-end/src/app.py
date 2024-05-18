@@ -107,7 +107,7 @@ def evaluate_website():
                 {
                     "score": score,
                     "url": url,
-                    "image": f"{decode_image_and_save(image_encode)}",
+                    "image": f"static/{decode_image_and_save(image_encode)}",
                 }
             ),
             200,
