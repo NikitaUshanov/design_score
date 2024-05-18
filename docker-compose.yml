@@ -42,3 +42,23 @@ services:
       - ./back-end/src/image-tmp:/app/cnn/src/image-tmp
       - /etc/localtime:/etc/localtime:ro
     restart: always
+
+  #############################
+  ###  SETUP CNN CONTAINER  ###
+  #############################
+  bot:
+    build:
+      context: ./tg-bot
+    container_name: bot
+    expose:
+      - 6000
+    ports:
+      - "6000:6000"
+    environment:
+      - G_TOKEN
+      - TG_TOKEN
+    volumes:
+      - ./CNN/src:/app/cnn/src
+      - ./back-end/src/image-tmp:/app/cnn/src/image-tmp
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
