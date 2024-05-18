@@ -15,7 +15,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ url: decodeURIComponent(url) })
+                body: JSON.stringify({ url: url })
             })
             .then(response => response.json())
             .then(data => {
