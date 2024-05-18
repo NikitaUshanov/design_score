@@ -1,22 +1,28 @@
-from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
-import logging
+import base64
 import csv
-import requests
-from datetime import datetime
+import logging
 import os
-from typing import Optional
 import random
+from datetime import datetime
+from io import BytesIO
+from typing import Optional
+
+import requests
+from PIL import Image
+from random_word import RandomWords
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
-from random_word import RandomWords
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from telegram import Update
+from telegram.ext import (
+    Application,
+    CallbackContext,
+    CommandHandler,
+    MessageHandler,
+    filters,
+)
 from webdriver_manager.chrome import ChromeDriverManager
-from io import BytesIO
-from PIL import Image
-import base64
-
 
 logger = logging.getLogger(__name__)
 
@@ -62,19 +68,17 @@ def decode_image(encoded_string: str) -> Image:
 def get_random_website() -> str:
     random_word = r.get_random_word()
 
-    params = {
-        "key": os.getenv("G_TOKEN"),
-        "q": random_word
-    }
+    params = {"key": os.getenv("G_TOKEN"), "q": random_word}
     response = requests.get("https://serpapi.com/search", params=params)
 
     if str(response.status_code).startswith("4"):
         logger.error(response.text)
         raise GoogleSearchException(response.text)
     search_results = response.json()
-    if 'organic_results' in search_results:
-        first_result = search_results['organic_results'][random.randint(1, len(
-            search_results['organic_results'])-1)]['link']
+    if "organic_results" in search_results:
+        first_result = search_results["organic_results"][
+            random.randint(1, len(search_results["organic_results"]) - 1)
+        ]["link"]
         return first_result
     return get_random_website()
 
@@ -89,14 +93,16 @@ def take_screenshot() -> str:
     except GoogleSearchException as err:
         driver.quit()
         return "ERROR: " + str(err)
-    screenshot_path = f"{screenshots_folder}/{datetime.now().strftime('%Y%m%d%H%M%S')}.png"
+    screenshot_path = (
+        f"{screenshots_folder}/{datetime.now().strftime('%Y%m%d%H%M%S')}.png"
+    )
     image_encode = driver.get_screenshot_as_base64()
     driver.quit()
     return image_encode
 
 
 def save_evaluation(image_encode: str, rating: Optional[int]) -> None:
-    with open('ratings.csv', 'a', newline='') as file:
+    with open("ratings.csv", "a", newline="") as file:
         writer = csv.writer(file)
         writer.writerow([datetime.now(), image_encode, rating])
 
@@ -117,20 +123,22 @@ async def send_screenshot(update: Update, context: CallbackContext) -> None:
     else:
         await update.message.reply_photo(
             photo=decode_image(image_encode),
-            caption="Пожалуйста, оцените дизайн сайта от 1 до 9."
+            caption="Пожалуйста, оцените дизайн сайта от 1 до 9.",
         )
-        context.user_data['last_screenshot'] = image_encode
+        context.user_data["last_screenshot"] = image_encode
 
 
 async def bot_logic(update: Update, context: CallbackContext) -> None:
     rating = update.message.text
     if rating.isdigit() and 1 <= int(rating) <= 9:
-        image_encode = os.path.basename(context.user_data.get('last_screenshot', 'unknown.png'))
+        image_encode = os.path.basename(
+            context.user_data.get("last_screenshot", "unknown.png")
+        )
         save_evaluation(image_encode, rating)
-        await update.message.reply_text('Спасибо за вашу оценку!')
+        await update.message.reply_text("Спасибо за вашу оценку!")
         await send_screenshot(update, context)
     else:
-        await update.message.reply_text('Пожалуйста, введите число от 1 до 9.')
+        await update.message.reply_text("Пожалуйста, введите число от 1 до 9.")
 
 
 def main():
@@ -143,5 +151,5 @@ def main():
     application.run_polling()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
