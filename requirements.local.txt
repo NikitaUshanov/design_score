@@ -1,0 +1,15 @@
+numpy
+h5py
+tensorflow
+keras
+flask
+opencv-python
+flask-cors
+selenium
+requests
+webdriver_manager
+pillow
+protobuf==3.20.3
+python-telegram-bot
+random-word
+python-io
