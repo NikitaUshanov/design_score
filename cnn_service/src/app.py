@@ -6,7 +6,7 @@ from typing import Any, Optional
 
 import numpy as np
 import tensorflow as tf
-from cnn_service.src.cnn_model.custom_objects import layers, metrics
+from cnn_model.custom_objects import layers, metrics
 from flask import Flask, request
 from flask_cors import CORS
 from keras.models import load_model
