@@ -38,8 +38,8 @@ services:
     environment:
       - PORT=7000
     volumes:
-      - ./cnn_service/src:/app/cnn/src
-      - ./backend/src/image-tmp:/app/cnn/src/image-tmp
+      - ./cnn_service/src:/app/cnn_service/src
+      - ./backend/src/image-tmp:/app/cnn_service/src/image-tmp
       - /etc/localtime:/etc/localtime:ro
     restart: always
 
@@ -60,7 +60,7 @@ services:
       - G_TOKEN=${G_TOKEN}
       - TG_TOKEN=${TG_TOKEN}
     volumes:
-      - ./cnn_service/src:/app/cnn/src
-      - ./backend/src/image-tmp:/app/cnn/src/image-tmp
+      - ./cnn_service/src:/app/cnn_service/src
+      - ./backend/src/image-tmp:/app/cnn_service/src/image-tmp
       - /etc/localtime:/etc/localtime:ro
     restart: always
