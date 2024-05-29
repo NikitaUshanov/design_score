@@ -1,6 +1,7 @@
 import base64
 import logging
 import os
+import time
 from io import BytesIO
 from typing import Optional, Tuple
 
@@ -51,6 +52,7 @@ def get_webpage_image(url: str) -> Tuple[bool, Optional[str]]:
     browser = get_browser()
     try:
         browser.get(url)
+        time.sleep(5)
         image_encode = browser.get_screenshot_as_base64()
         logger.info(f"Screenshot saved")
         return True, image_encode
