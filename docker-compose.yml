@@ -25,11 +25,11 @@ services:
       - cnn
 
   #############################
-  ###  SETUP CNN CONTAINER  ###
+  ###  SETUP cnn_service CONTAINER  ###
   #############################
   cnn:
     build:
-      context: ./CNN
+      context: cnn_service
     container_name: cnn
     expose:
       - 7000
@@ -38,7 +38,7 @@ services:
     environment:
       - PORT=7000
     volumes:
-      - ./CNN/src:/app/cnn/src
+      - ./cnn_service/src:/app/cnn/src
       - ./backend/src/image-tmp:/app/cnn/src/image-tmp
       - /etc/localtime:/etc/localtime:ro
     restart: always
@@ -60,7 +60,7 @@ services:
       - G_TOKEN=${G_TOKEN}
       - TG_TOKEN=${TG_TOKEN}
     volumes:
-      - ./CNN/src:/app/cnn/src
+      - ./cnn_service/src:/app/cnn/src
       - ./backend/src/image-tmp:/app/cnn/src/image-tmp
       - /etc/localtime:/etc/localtime:ro
     restart: always

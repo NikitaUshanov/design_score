@@ -6,7 +6,7 @@ from typing import Any, Optional
 
 import numpy as np
 import tensorflow as tf
-from CNN.src.cnn_model.custom_objects import layers, metrics
+from cnn_service.src.cnn_model.custom_objects import layers, metrics
 from flask import Flask, request
 from flask_cors import CORS
 from keras.models import load_model
@@ -79,7 +79,7 @@ def postdata():
         score = np.minimum(score, 10.0)
         score = np.maximum(score, 1.0)
 
-        logger.info("CNN score: " + str(score))
+        logger.info("cnn_service score: " + str(score))
 
     return json.dumps({"score": score})
 

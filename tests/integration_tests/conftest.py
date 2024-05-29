@@ -1,8 +1,8 @@
 import pytest
 
 from backend.src.app import app as flask_app
-from CNN.src.app import app as cnn_app
-from CNN.src.app import load_cnn_model
+from cnn_service.src.app import app as cnn_app
+from cnn_service.src.app import load_cnn_model
 
 
 @pytest.fixture(scope='session')
